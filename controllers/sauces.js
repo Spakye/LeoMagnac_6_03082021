@@ -101,15 +101,28 @@ exports.likeSauce = (req, res, next) => {
 			var dislikes = sauce.dislikes;
 			var usersLiked = JSON.parse(sauce.usersLiked);
 			var usersDisliked = JSON.parse(sauce.usersDisliked);
+
+			// Reset the like/dislikes
+			var index = usersLiked.indexOf(userId);
+			if (index != -1) {
+				usersLiked.splice(index, 1);
+				likes = likes - 1;
+			}
+			index = usersDisliked.indexOf(userId);
+			if (index != -1) {
+				usersDisliked.splice(index, 1);
+				dislikes = dislikes - 1;
+			}
+
 			// the user liked the sauce
 			if (like === 1) {
 				likes = likes + 1;
 				usersLiked.push(userId);
-				var index = usersDisliked.indexOf(userId);
-				if (index != -1) {
-					usersDisliked.splice(index, 1);
-					dislikes = dislikes - 1;
-				}
+				// var index = usersDisliked.indexOf(userId);
+				// if (index != -1) {
+				// 	usersDisliked.splice(index, 1);
+				// 	dislikes = dislikes - 1;
+				// }
 			}
 			// the user cancel his like/dislike
 			if (like === 0) {
@@ -128,11 +141,11 @@ exports.likeSauce = (req, res, next) => {
 			if (like === -1) {
 				dislikes = dislikes + 1;
 				usersDisliked.push(userId);
-				var index = usersLiked.indexOf(userId);
-				if (index != -1) {
-					usersLiked.splice(index, 1);
-					likes = likes - 1;
-				}
+				// var index = usersLiked.indexOf(userId);
+				// if (index != -1) {
+				// 	usersLiked.splice(index, 1);
+				// 	likes = likes - 1;
+				// }
 			}
 			console.log("like: " + like);
 			console.log("likes: " + likes);
