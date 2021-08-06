@@ -3,6 +3,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bouncer = require("../middleware/bouncer");
 const crypto = require("crypto");
+// const cryptoJS = require("crypto-js");
 
 exports.signup = (req, res, next) => {
 	var cryptedEmail = crypto

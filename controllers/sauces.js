@@ -56,20 +56,21 @@ exports.modifySauce = (req, res, next) => {
 				}`,
 		  }
 		: { ...req.body };
-	console.log(sauceObject);
 	if (req.file != undefined) {
 		Sauce.findOne({ _id: req.params.id })
 			.then((sauce) => {
 				const filename = sauce.imageUrl.split("/images/")[1];
 				if (filename != undefined) {
 					fs.unlink(`images/${filename}`, (err) => {
-						if (err) throw err;
-						console.log("old image was deleted");
-						res.status(200).json({ message: "Old sauce's image deleted !" });
+						if (err) {
+							console.log("was not deleted");
+						} else {
+							console.log("deleted");
+						}
 					});
 				}
 			})
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => console.log(error));
 	}
 	Sauce.updateOne(
 		{ _id: req.params.id },
@@ -126,16 +127,16 @@ exports.likeSauce = (req, res, next) => {
 			}
 			// the user cancel his like/dislike
 			if (like === 0) {
-				var index = usersLiked.indexOf(userId);
-				if (index != -1) {
-					usersLiked.splice(index, 1);
-					likes = likes - 1;
-				}
-				index = usersDisliked.indexOf(userId);
-				if (index != -1) {
-					usersDisliked.splice(index, 1);
-					dislikes = dislikes - 1;
-				}
+				// var index = usersLiked.indexOf(userId);
+				// if (index != -1) {
+				// 	usersLiked.splice(index, 1);
+				// 	likes = likes - 1;
+				// }
+				// index = usersDisliked.indexOf(userId);
+				// if (index != -1) {
+				// 	usersDisliked.splice(index, 1);
+				// 	dislikes = dislikes - 1;
+				// }
 			}
 			// the user disliked the sauce
 			if (like === -1) {
